@@ -4,7 +4,7 @@ class Api::V1::RegistrationsController < ApplicationController
   def create
     # 既に登録されているメールアドレスならエラーを返す
       user = User.find_by(email: params[:email])
-      
+
     if user.nil?
       # メールアドレス認証用のJWTの生成
       payload = {
@@ -15,7 +15,12 @@ class Api::V1::RegistrationsController < ApplicationController
           password_confirmation: params[:password_confirmation],
           exp: ( Time.now + 30.minutes ).to_i
       }
-      rsa_private = OpenSSL::PKey::RSA.new(File.read(Rails.root.join('auth/service.key')))
+      if Ralis.env.production?
+        rsa_private = OpenSSL::PKey::RSA.new(File.read(Rails.root.join(ENV['SERVICE_KEY'])))
+      elsif  Rails.env.development?
+        rsa_private = OpenSSL::PKey::RSA.new(File.read(Rails.root.join('auth/service.key')))
+      end
+      
       token = JWT.encode(payload, rsa_private, "RS256")
 
       # JWTを末尾につけたURLを生成
