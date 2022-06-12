@@ -15,8 +15,9 @@ class Api::V1::RegistrationsController < ApplicationController
           password_confirmation: params[:password_confirmation],
           exp: ( Time.now + 30.minutes ).to_i
       }
-      if Ralis.env.production?
-        rsa_private = OpenSSL::PKey::RSA.new(File.read(Rails.root.join(ENV['SERVICE_KEY'])))
+
+      if Rails.env.production?
+        rsa_private = OpenSSL::PKey::RSA.new(ENV['SERVICE_KEY'])
       elsif  Rails.env.development?
         rsa_private = OpenSSL::PKey::RSA.new(File.read(Rails.root.join('auth/service.key')))
       end
