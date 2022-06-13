@@ -3,9 +3,9 @@ class Api::V1::RegistrationsController < ApplicationController
   # ユーザー登録の準備
   def create
     # # 既に登録されているメールアドレスか確認
-    #   user = User.find_by(email: params[:email])
+      user = User.find_by(email: params[:email])
 
-    # if user.nil?
+    if user.nil?
       # メールアドレス認証用のJWTの生成
       payload = {
           iss: "compass",
@@ -33,8 +33,8 @@ class Api::V1::RegistrationsController < ApplicationController
       UserMailer.send_auth_email(params[:name], params[:email], url).deliver_now
 
       render json: { status: 200, message: "success" }
-    # else
-    #   render json: { status: 401, message: "already has used" }
-    # end
+    else
+      render json: { status: 401, message: "already has used" }
+    end
   end
 end
