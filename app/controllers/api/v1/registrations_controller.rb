@@ -2,7 +2,7 @@ class Api::V1::RegistrationsController < ApplicationController
 
   # ユーザー登録の準備
   def create
-    # 既に登録されているメールアドレスならエラーを返す
+    # 既に登録されているメールアドレスか確認
       user = User.find_by(email: params[:email])
 
     if user.nil?
@@ -34,7 +34,7 @@ class Api::V1::RegistrationsController < ApplicationController
 
       render json: { status: 200, message: "success" }
     else
-       render json: { status: 401 }
+       render json: { status: 401, message: "already has used" }
     end
   end
 end
