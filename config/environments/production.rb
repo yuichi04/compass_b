@@ -91,28 +91,28 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # mailer settings.
-  # config.action_mailer.raise_delivery_errors = true
-  # config.action_mailer.delivery_method = :smtp
-  # config.action_mailer.default_url_options = { host: "mail.compass-lo.link" }
-  # ActionMailer::Base.smtp_settings = {
-  #   :address        => 'smtp.gmail.com',
-  #   :port           => '587',
-  #   :authentication => :plain,
-  #   :user_name      => ENV['MAILER_EMAIL'],
-  #   :password       => ENV['MAILER_PASSWORD'],
-  #   :domain         => 'gmail.com',
-  #   :enable_starttls_auto => true
-  # }
-
-  credentials = Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])
-  Aws::Rails.add_action_mailer_delivery_method(
-    :aws_sdk, 
-    credentials:,
-    region: 'ap-northeast-1'
-  )
-  config.action_mailer.default_url_options = { host: 'mail.compass-lo.link' }
-  config.action_mailer.delivery_method = :aws_sdk
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.perform_caching = false
   config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: "mail.compass-lo.link" }
+  ActionMailer::Base.smtp_settings = {
+    :address        => 'smtp.gmail.com',
+    :port           => '587',
+    :authentication => :plain,
+    :user_name      => ENV['MAILER_EMAIL'],
+    :password       => ENV['MAILER_PASSWORD'],
+    :domain         => 'gmail.com',
+    :enable_starttls_auto => true
+  }
+
+  # credentials = Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])
+  # Aws::Rails.add_action_mailer_delivery_method(
+  #   :aws_sdk, 
+  #   credentials:,
+  #   region: 'ap-northeast-1'
+  # )
+  # config.action_mailer.default_url_options = { host: 'mail.compass-lo.link' }
+  # config.action_mailer.delivery_method = :aws_sdk
+  # config.action_mailer.perform_deliveries = true
+  # config.action_mailer.perform_caching = false
+  # config.action_mailer.raise_delivery_errors = true
 end

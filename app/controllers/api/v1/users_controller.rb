@@ -9,8 +9,14 @@ class Api::V1::UsersController < ApplicationController
         render json: { status: 401, message: "token is null" } if token.nil?
 
         # 秘密鍵の取得
-        rsa_private = OpenSSL::PKey::RSA.new(File.read(Rails.root.join('auth/service.key')))
-
+        if Rails.env.production?
+            tmp = ENV['SERVICE_KEY_F'] + ENV['SERVICE_KEY_L']
+            str = tmp.gsub(/\\n/, "\n")
+            rsa_private = OpenSSL::PKey::RSA.new(str);
+        elsif Rails.env.development?
+            rsa_private = OpenSSL::PKey::RSA.new(File.read(Rails.root.join('auth/service.key')))
+        end
+        
         # JWTをデコードする。ペイロードを取得できない場合は認証エラーにする
         begin
             decoded_token = JWT.decode(token, rsa_private, true, { algorithm: "RS256" })
