@@ -29,10 +29,10 @@ class Api::V1::RegistrationsController < ApplicationController
     #   # JWTを末尾につけたURLを生成
     # #   url = ENV["EMAIL_AUTH_URL"] + "/" + token if token
 
-    #   url = "testdatestda"
+      url = "testdatestda"
       
     #   # urlを記載したメールをフォームからpostされたメールアドレスに送信
-    #   UserMailer.send_auth_email(params[:name], params[:email], url).deliver_now
+      UserMailer.send_auth_email(params[:name], params[:email], url).deliver_now
 
     #   render json: { status: 200, message: "success" }
     # else
