@@ -110,7 +110,7 @@ Rails.application.configure do
     credentials:,
     region: 'ap-northeast-1'
   )
-  config.action_mailer.default_url_options = { host: 'compass-lo.link', protocol: 'https' }
+  config.action_mailer.default_url_options = { host: 'compass-lo.link' }
   config.action_mailer.delivery_method = :aws_sdk
   config.action_mailer.perform_deliveries = true
   config.action_mailer.perform_caching = false
