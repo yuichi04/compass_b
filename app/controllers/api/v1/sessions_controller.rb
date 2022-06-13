@@ -5,7 +5,7 @@ class Api::V1::SessionsController < ApplicationController
     user = AuthenticationService.authenticate_user_with_password(params[:email], params[:password])
     if user
       token = TokenService.issue_token(user.id)
-      cookies[:token] = { value: token, httponly:true, domain: "compass-lo.link" }
+      cookies[:token] = { value: token, httponly:true }
       data = {name: user.name, email: user.email, created_at: user.created_at }
       render json: { status: 200, message: "success", user: data }
     else
