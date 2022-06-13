@@ -17,7 +17,8 @@ class Api::V1::RegistrationsController < ApplicationController
       }
 
       if Rails.env.production?
-        str = ENV['SERVICE_KEY'].gsub(/\\n/, "\n")
+        tmp = ENV['SERVICE_KEY_F'] + ENV['SERVICE_KEY_L']
+        str = tmp.gsub(/\\n/, "\n")
         rsa_private = OpenSSL::PKey::RSA.new(str);
       elsif  Rails.env.development?
         rsa_private = OpenSSL::PKey::RSA.new(File.read(Rails.root.join('auth/service.key')))
