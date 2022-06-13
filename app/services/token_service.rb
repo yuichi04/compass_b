@@ -19,6 +19,7 @@ class TokenService
         elsif Rails.env.development?
             rsa_private = OpenSSL::PKey::RSA.new(File.read(Rails.root.join('auth/service.key')))
         end
+        
         JWT.encode(payload, rsa_private, "RS256")
     end
 end
