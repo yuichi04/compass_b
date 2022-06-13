@@ -13,7 +13,13 @@ class AuthenticationService
     # JWTによるユーザー取得
     def self.authenticate_user_with_token(token)
         # 秘密鍵の取得
-        rsa_private = OpenSSL::PKey::RSA.new(File.read(Rails.root.join('auth/service.key')))
+        if Rails.env.production?
+            tmp = ENV['SERVICE_KEY_F'] + ENV['SERVICE_KEY_L']
+            str = tmp.gsub(/\\n/, "\n")
+            rsa_private = OpenSSL::PKey::RSA.new(str);
+        elsif Rails.env.development?
+            rsa_private = OpenSSL::PKey::RSA.new(File.read(Rails.root.join('auth/service.key')))
+        end
 
         # JWTをデコードする。ペイロードを取得できない場合は認証エラーにする
         begin
