@@ -13,6 +13,7 @@ class Api::V1::SessionsController < ApplicationController
     end
   end
 
+  # 認証情報の確認
   def show
     token = cookies[:token]
     user = AuthenticationService.authenticate_user_with_token(token) if token
@@ -24,6 +25,7 @@ class Api::V1::SessionsController < ApplicationController
     end
   end
 
+  # ログアウト
   def destroy
     if cookies[:token]
       cookies.delete(:token)

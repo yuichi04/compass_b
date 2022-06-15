@@ -44,6 +44,7 @@ class Api::V1::UsersController < ApplicationController
         end
     end
 
+    # ユーザー情報の更新
     def update
         token = cookies[:token]
         user = AuthenticationService.authenticate_user_with_token(token) if token
@@ -55,6 +56,7 @@ class Api::V1::UsersController < ApplicationController
         end
     end
 
+    # アカウント削除
     def destroy
         token = cookies[:token]
         user = AuthenticationService.authenticate_user_with_token(token) if token
@@ -67,10 +69,6 @@ class Api::V1::UsersController < ApplicationController
     end
 
     private
-        def signup_params
-            params.require(:user).permit(:name, :email, :password, :password_confirmation)
-        end
-
         def update_params
             params.require(:user).permit(:name, :email, :password)
         end
