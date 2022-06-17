@@ -1,8 +1,8 @@
 class Api::V1::RegistrationsController < ApplicationController
 
-  # ユーザー登録の準備
+  # メールアドレス認証用のメールを生成し送信
   def create
-    # # 既に登録されているメールアドレスか確認
+    # メールアドレスが既に使われていないか検証
       user = User.find_by(email: params[:email])
 
     if user.nil?

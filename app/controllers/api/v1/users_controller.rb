@@ -44,12 +44,24 @@ class Api::V1::UsersController < ApplicationController
         end
     end
 
-    # ユーザー情報の更新
-    def update
+    # ユーザーネームのアップデート
+    def update_username
         token = cookies[:token]
         user = AuthenticationService.authenticate_user_with_token(token) if token
 
-        if user.update(update_params)
+        if user.update(update_name_params)
+            render json: { status: 200, message: "success" }
+        else
+            render json: { status: 401, message: "unauthorized" }
+        end
+    end
+
+    # パスワードのアップデート
+    def update_password
+        token = cookies[:token]
+        user = AuthenticationService.authenticate_user_with_token(token) if token 
+        
+        if user.update(update_password_params)
             render json: { status: 200, message: "success" }
         else
             render json: { status: 401, message: "unauthorized" }
@@ -69,7 +81,11 @@ class Api::V1::UsersController < ApplicationController
     end
 
     private
-        def update_params
-            params.require(:user).permit(:name, :email, :password)
+        def update_name_params
+            params.require(:user).permit(:name)
+        end
+
+        def update_password_params
+            params.require(:user).permit(:password)
         end
 end
