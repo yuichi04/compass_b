@@ -8,8 +8,14 @@ class UserMailer < ApplicationMailer
         mail to: email, subject: "COMPASS | 認証コードの確認"
     end
 
-    def welcome_email(user)
-        @user=user
-        mail to: user.email
+    def welcome_email(name, email)
+        @name=name
+        mail to: email
+    end
+
+    def send_update_email_auth_email(email, url)
+        @url = url
+        @email = email
+        mail to: email, subject: "COMPASS | メールアドレス変更の確認"
     end
 end

@@ -34,7 +34,7 @@ class Api::V1::RegistrationsController < ApplicationController
 
       render json: { status: 200, message: "success" }
     else
-      render json: { status: 401, message: "already has used" }
+      render json: { status: 401, message: "already" }
     end
   end
 end
