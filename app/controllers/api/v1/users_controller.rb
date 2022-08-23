@@ -1,5 +1,6 @@
 class Api::V1::UsersController < ApplicationController
 
+    # パラメーターにuserキーをつける
     wrap_parameters :user, include: [:name, :email, :password, :password_confirmation]
 
     # ユーザー登録
@@ -106,6 +107,7 @@ class Api::V1::UsersController < ApplicationController
 
         # 秘密鍵の取得
         if Rails.env.production?
+            # 分割していたキーを1つにまとめる
             tmp = ENV['SERVICE_KEY_F'] + ENV['SERVICE_KEY_L']
             str = tmp.gsub(/\\n/, "\n")
             rsa_private = OpenSSL::PKey::RSA.new(str);
@@ -153,7 +155,7 @@ class Api::V1::UsersController < ApplicationController
         token = cookies[:token]
         user = AuthenticationService.authenticate_user_with_token(token) if token
         if user.destroy
-            cookies.delete(:token)
+            cookies.delete(:token) # cookieを削除
             render json: { status: 200, message: "success" }
         else
             render json: { status: 401, message: "unauthorized" }

@@ -6,7 +6,7 @@ class Api::V1::SessionsController < ApplicationController
     if user
       token = TokenService.issue_token(user.id)
       cookies[:token] = { value: token, httponly:true }
-      data = {name: user.name, email: user.email, created_at: user.created_at }
+      data = {id: user.id ,name: user.name, email: user.email, created_at: user.created_at }
       render json: { status: 200, message: "success", user: data }
     else
       render json: { status: 401, message: "unauthorized" }
@@ -18,7 +18,7 @@ class Api::V1::SessionsController < ApplicationController
     token = cookies[:token]
     user = AuthenticationService.authenticate_user_with_token(token) if token
     if user
-      data = {name: user.name, email: user.email, created_at: user.created_at }
+      data = {id: user.id, name: user.name, email: user.email, created_at: user.created_at }
       render json: { status: 200, message: "success", user: data}
     else
       render json: { status: 401, message: "unauthorized"}

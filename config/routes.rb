@@ -9,6 +9,7 @@ Rails.application.routes.draw do
           patch 'update_password'
         end
       end
+      resource :answers, only: [:create, :show, :destroy]
       resource :sessions, only: [:create, :show, :destroy]
       post "/registrations", to: "registrations#create"
       post "/inquiry", to: "inquiry#create"
@@ -17,3 +18,13 @@ Rails.application.routes.draw do
     end
   end
 end
+
+
+# model
+# データベース作る
+
+# controller
+# def create
+# json形式で保存する処理を作る
+# def show
+# データを返す処理を作る
