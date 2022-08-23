@@ -15,11 +15,10 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
   password:
-  # socket: /var/lib/mysql/mysql.sock
-  socket: /tmp/mysql.sock
 
 development:
   <<: *default
+  socket: /tmp/mysql.sock
   database: backend_development
 
 # Warning: The database defined as "test" will be erased and
@@ -61,5 +60,5 @@ production:
   database: backend_production
   username: admin
   password: <%= ENV['DATABASE_PASSWORD'] %>
-  # socket: /var/lib/mysql/mysql.sock
+  socket: /var/lib/mysql/mysql.sock
   host: <%= ENV['RDS_ENDPOINT'] %>
